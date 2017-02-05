@@ -1,0 +1,113 @@
+﻿@using ChurrasDaTrinca.Language
+@using ChurrasDaTrinca.Web.Helpers
+@using ChurrasDaTrinca.Web.Models
+
+@{
+    ViewBag.Title = GlobalResource.ViewEventTitle;
+}
+
+@model EventViewModel
+
+<div class="main-panel">
+
+    @Html.Partial("../Shared/_NavBar")
+
+    <div class="content">
+        <div class="container-fluid">
+
+            @using (Html.BeginForm("Manipulate", "Event", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @Html.HiddenFor(model => model.Entity.Id)
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+
+                            <div class="card-header" data-background-color="purple">
+                                <i class="material-icons icon-title">event</i>
+                                @if (Model.Entity.HasId())
+                                {
+                                    <h4 class="title">@GlobalResource.EditEvent</h4>
+                                }
+                                else
+                                {
+                                    <h4 class="title">@GlobalResource.AddEvent</h4>
+                                }
+                            </div>
+
+                            <div class="card-content">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            @Html.LabelFor(model => model.Entity.Date, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Entity.Date, "{0:d}", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Entity.Date)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            @Html.LabelFor(model => model.Entity.Description, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Entity.Description, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Entity.Description)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group label-floating">
+                                            @Html.LabelFor(model => model.Entity.Observation, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Entity.Observation, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">@MessageResource.SuggestedContributionAmount</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            @Html.LabelFor(model => model.Entity.ContributionWithDrink, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Entity.ContributionWithDrink, "{0:N}", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Entity.ContributionWithDrink)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            @Html.LabelFor(model => model.Entity.ContributionWithoutDrink, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Entity.ContributionWithoutDrink, "{0:N}", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Entity.ContributionWithoutDrink)
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                @Html.Partial("../Participant/_List", new ParticipantViewModel() { Entities = Model.Entity.Participants })
+
+                <button type="submit" name="SubmitType" value="@SubmitType.AddEvent" class="btn btn-primary pull-right background-color-green">@GlobalResource.Save</button>
+                <button type="submit" name="SubmitType" value="@SubmitType.AddParticipantToEvent" class="btn btn-primary pull-right">@GlobalResource.AddParticipant</button>                
+            }
+
+            <a href="@ConfigurationResource.EventList"><button class="btn btn-primary pull-right">@GlobalResource.Back</button></a>
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,114 @@
+﻿/* Componentes Gerais --------------------------------------*/
+
+.card .card-content {
+    padding: 15px 20px 45px 20px !important;
+}
+
+.form-group.label-static label.control-label, .form-group.label-floating.is-focused label.control-label, .form-group.label-floating:not(.is-empty) label.control-label {
+    font-size: 13px !important;
+}
+
+input[type="radio"][disabled], input[type="checkbox"][disabled], .radio[disabled], .radio-inline[disabled], .checkbox[disabled], .checkbox-inline[disabled], fieldset[disabled] input[type="radio"], fieldset[disabled] input[type="checkbox"], fieldset[disabled] .radio, fieldset[disabled] .radio-inline, fieldset[disabled] .checkbox, fieldset[disabled] .checkbox-inline {
+    cursor: default !important;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    cursor: default !important;
+}
+
+.background-color-green {
+    background: #43a047 !important;
+}
+
+.icon-title{
+    float: right !important;
+}
+
+.bold {
+    font-weight: bold !important;
+}
+
+.delete-button {
+    cursor: pointer !important;
+}
+
+.sidebar {
+    background-color: white !important;
+}
+
+.sidebar:after, .off-canvas-sidebar:after {
+    background-color: white !important;
+}
+
+.nav-mobile-menu {
+    display: none !important;
+}
+
+/* Eventos -------------------------------------------------*/
+
+.show-past-events {
+    padding-top: 15px;
+}
+
+.label-past-events {
+    font-size: 14px;
+    color: #FFFFFF;
+    float: right;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1.5em;
+}
+
+.checkbox-past-events {
+    width: 14px !important;
+    float: right !important;
+    margin-left: 10px !important;
+}
+
+.label-event-details-title {
+    font-size: 14px !important;
+    color: purple !important;
+    font-weight: bold !important;
+}
+
+.label-event-details {
+    font-size: 14px !important;
+    color: purple !important;
+}
+
+/* Participantes -------------------------------------------*/
+
+.input-participant {
+    width: 14px !important;
+}
+
+/* Responsivo ----------------------------------------------*/
+
+@media (max-width: 1280px) {
+    #main-logo {
+        width: 420px;
+        height: 501px;
+    }
+
+    #main_subtitle {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 1024px) {
+    #main-logo {
+        width: 300px;
+        height: 358px;
+    }
+
+    #main_subtitle {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 320px) {
+    #main-logo {
+        width: 200px;
+        height: 228px;
+    }
+}

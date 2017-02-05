@@ -1,0 +1,1 @@
+[{"Id":2,"Name":"JADERSON","Contribution":35,"Paid":true,"WithDrink":false,"ObservationToOrganizer":"OK","EventId":1},{"Id":1,"Name":"JONATHAN","Contribution":30,"Paid":true,"WithDrink":true,"ObservationToOrganizer":"CERTO","EventId":1},{"Id":3,"Name":"JONATHAN","Contribution":50,"Paid":true,"WithDrink":false,"ObservationToOrganizer":null,"EventId":2}]

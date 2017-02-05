@@ -1,0 +1,117 @@
+﻿@using ChurrasDaTrinca.Language
+@using System.Linq
+@using ChurrasDaTrinca.Web.Helpers
+
+@{
+    ViewBag.Title = GlobalResource.ViewScheduleTitle;
+}
+
+@model ChurrasDaTrinca.Web.Models.EventViewModel
+
+<div class="main-panel">
+
+    @Html.Partial("../Shared/_NavBar")
+
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-header" data-background-color="purple">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 class="title">@GlobalResource.OurSchedule</h4>
+                                    <p class="category">@MessageResource.TotalList</p>
+                                </div>
+                                <div class="col-md-4 show-past-events">
+                                    @Html.CheckBoxFor(model => model.PastEvents, new { @checked = Model.PastEvents ? "checked" : string.Empty, @class = "checkbox-past-events" })
+                                    <label class="label-past-events">@MessageResource.ShowPastEvents</label>                                   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-content table-responsive">
+                            <table class="table">
+
+                                <thead class="text-primary">
+                                <th>@GlobalResource.Date</th>
+                                <th>@GlobalResource.Description</th>
+                                <th>@GlobalResource.Participants</th>
+                                <th>@GlobalResource.TotalCollected</th>
+                                <th>@GlobalResource.Space</th>
+                                <th>@GlobalResource.Space</th>
+                                <th>@GlobalResource.Space</th>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var entity in Model.Entities)
+                                    {
+                                        double contribuition = 0;
+
+                                        if (entity.HasParticipants())
+                                        {
+                                            contribuition = entity.Participants.Sum(x => x.Contribution);
+                                        }
+
+                                        <tr>
+                                            <td>@string.Format("{0:d}", entity.Date)</td>
+                                            <td>@entity.Description</td>
+                                            <td>@entity.CountParticipants()</td>
+                                            <td>@string.Format("{0:c}", contribuition)</td>
+                                            <td><a href="@string.Concat(ConfigurationResource.EventDetails, entity.Id)"><i class="material-icons">zoom_in</i></a></td>
+                                            <td><a href="@string.Concat(ConfigurationResource.EventEdit, entity.Id)"><i class="material-icons">edit</i></a></td>
+                                            <td><a class="delete-button" onclick="DeleteEvent(@entity.Id)"><i class="material-icons">delete</i></a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <a href="@ConfigurationResource.Home"><button class="btn btn-primary pull-right">@GlobalResource.Back</button></a>
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function DeleteEvent(id) {
+        var flag = confirm("@Html.Raw(MessageResource.EventDelete)");
+
+        if (flag) {
+
+            $.ajax({
+                url: "@Html.Raw(ConfigurationResource.EventDelete)",
+                type: "POST",
+                data: { id: id },
+                dataType: "json"
+            }).success(function (data) {
+                window.location = data.redirectResult;
+            });
+
+        }
+
+        return false;
+    }
+
+    function ChangePastEventsValue() {
+        $.ajax({
+            url: "@Html.Raw(ConfigurationResource.EventChangePastEventsValue)",
+            type: "POST",
+            dataType: "json"
+        }).success(function (data) {
+            window.location = data.redirectResult;
+        });
+
+        return false;
+    }
+
+</script>    

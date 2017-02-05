@@ -1,0 +1,91 @@
+﻿@using ChurrasDaTrinca.Language
+@using ChurrasDaTrinca.Web.Helpers
+
+@{
+    ViewBag.Title = GlobalResource.ViewParticipantTitle;
+}
+
+@model ChurrasDaTrinca.Web.Models.ParticipantViewModel
+
+<div class="main-panel">
+
+    @Html.Partial("../Shared/_NavBar")
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-header" data-background-color="purple">
+                            <i class="material-icons icon-title">person</i>
+                            <h4 class="title">@GlobalResource.ViewParticipant</h4>
+                        </div>
+
+                        <div class="card-content">
+
+                            @{
+                                var paidChecked = Model.Entity.Paid ? "checked" : string.Empty;
+                            }
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">@GlobalResource.Event</label>
+                                        @Html.TextBoxFor(model => model.Event.Description, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(model => model.Entity.Name, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Entity.Name, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">@GlobalResource.ContributionWithoutCurrency</label>
+                                        @Html.TextBoxFor(model => model.Entity.Contribution, "{0:c}", new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(model => model.Entity.Paid, new { @class = "control-label" })
+                                        @Html.CheckBoxFor(model => model.Entity.Paid, new { @checked = @paidChecked, @class = "form-control input-participant", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group label-floating">
+                                        @Html.RadioButtonFor(model => model.Entity.WithDrink, true, new { @class = "form-control input-participant", @disabled = "disabled" })
+                                        <label class="control-label">@GlobalResource.WithDrink</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group label-floating">
+                                        @Html.RadioButtonFor(model => model.Entity.WithDrink, false, new { @class = "form-control input-participant", @disabled = "disabled" })
+                                        <label class="control-label">@GlobalResource.WithoutDrink</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(model => model.Entity.ObservationToOrganizer, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Entity.ObservationToOrganizer, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <a href="@string.Concat(ConfigurationResource.EventEdit, Model.Entity.EventId)"><button class="btn btn-primary pull-right">@GlobalResource.Back</button></a>
+                            <div class="clearfix"></div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

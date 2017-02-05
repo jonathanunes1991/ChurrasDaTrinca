@@ -1,0 +1,133 @@
+﻿@using ChurrasDaTrinca.Language
+@using ChurrasDaTrinca.Web.Models
+
+@{
+    ViewBag.Title = GlobalResource.ViewEventTitle;
+}
+
+@model EventViewModel
+
+<div class="main-panel">
+
+    @Html.Partial("../Shared/_NavBar")
+
+    <div class="content">
+        <div class="container-fluid">
+
+            @Html.HiddenFor(model => model.Entity.Id)
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-header" data-background-color="purple">
+                            <i class="material-icons icon-title">event</i>
+                            <h4 class="title">@GlobalResource.ViewEvent</h4>
+                        </div>
+
+                        <div class="card-content">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(model => model.Entity.Date, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Entity.Date, "{0:d}", new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(model => model.Entity.Description, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Entity.Description, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group label-floating">
+                                        @Html.LabelFor(model => model.Entity.Observation, new { @class = "control-label" })
+                                        @Html.TextBoxFor(model => model.Entity.Observation, new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">@MessageResource.SuggestedContributionAmount</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">@GlobalResource.WithDrinkWithoutCurrency</label>
+                                        @Html.TextBoxFor(model => model.Entity.ContributionWithDrink, "{0:c}", new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">@GlobalResource.WithoutDrinkWithoutCurrency</label>
+                                        @Html.TextBoxFor(model => model.Entity.ContributionWithoutDrink, "{0:c}", new { @class = "form-control", @disabled = "disabled" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            @Html.Partial("../Participant/_List", new ParticipantViewModel() { Entities = Model.Entity.Participants, CanEdit = false })
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+
+                        <div class="card-header" data-background-color="green">
+                            <i class="material-icons icon-title">explore</i>
+                            <h4 class="title">@GlobalResource.Info</h4>
+                        </div>
+
+                        <div class="card-content">
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label class="control-label label-event-details-title">@GlobalResource.NumberParticipants</label>
+                                    <label class="control-label label-event-details">@Model.Entity.Participants.Count()</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="control-label label-event-details-title">@GlobalResource.TotalToBeCollected</label>
+                                    <label class="control-label label-event-details">@string.Format("{0:c}", Model.Entity.TotalToBeCollected())</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label label-event-details-title">@GlobalResource.NumberDrunks</label>
+                                    <label class="control-label label-event-details">@Model.Entity.Participants.Count(x => x.WithDrink)</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="control-label label-event-details-title">@GlobalResource.AmountAlreadyPaid</label>
+                                    <label class="control-label label-event-details">@string.Format("{0:c}", Model.Entity.AmountAlreadyPaid())</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="control-label label-event-details-title">@GlobalResource.NumberHealthy</label>
+                                    <label class="control-label label-event-details">@Model.Entity.Participants.Count(x => !x.WithDrink)</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <a href="@ConfigurationResource.EventList"><button class="btn btn-primary pull-right">@GlobalResource.Back</button></a>
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+
+</div>

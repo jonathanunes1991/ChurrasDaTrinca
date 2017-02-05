@@ -1,0 +1,23 @@
+﻿@using ChurrasDaTrinca.Language
+
+@{
+    ViewBag.Title = GlobalResource.ViewHomeTitle;
+}
+
+<div class="main-panel">
+
+    @Html.Partial("../Shared/_NavBar")
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 text-center">
+
+                    <img id="main-logo" src="../Content/images/Logo.png" alt="Logo">
+                    <h2 id="main_subtitle">@MessageResource.OurEvents</h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

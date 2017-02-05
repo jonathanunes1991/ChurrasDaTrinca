@@ -1,0 +1,125 @@
+﻿@using ChurrasDaTrinca.Language
+@using ChurrasDaTrinca.Web.Helpers
+
+@{
+    ViewBag.Title = GlobalResource.ViewParticipantTitle;
+}
+
+@model ChurrasDaTrinca.Web.Models.ParticipantViewModel
+
+<div class="main-panel">
+
+    @Html.Partial("../Shared/_NavBar")
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-header" data-background-color="purple">
+                            <i class="material-icons icon-title">person</i>
+                            @if (Model.Entity.HasId())
+                            {
+                                <h4 class="title">@GlobalResource.EditParticipant</h4>
+                            }
+                            else
+                            {
+                                <h4 class="title">@GlobalResource.AddParticipant</h4>
+                            }
+                        </div>
+
+                        <div class="card-content">
+
+                            @using (Html.BeginForm("Manipulate", "Participant", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)
+
+                                @Html.HiddenFor(model => model.Entity.Id)
+
+                                var paidChecked = Model.Entity.Paid ? "checked" : string.Empty;
+
+                                if (Model.SubmitType.Equals(SubmitType.AddParticipant))
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group label-floating">
+                                                @Html.LabelFor(model => model.Entity.EventId, new { @class = "control-label" })
+                                                @Html.DropDownListFor(model => model.Entity.EventId, Model.Events, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    @Html.HiddenFor(model => model.Entity.EventId)
+                                }
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            @Html.LabelFor(model => model.Entity.Name, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Entity.Name, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Entity.Name)
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            @Html.LabelFor(model => model.Entity.Contribution, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Entity.Contribution, "{0:n}", new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.LabelFor(model => model.Entity.Paid, new { @class = "control-label" })
+                                            @Html.CheckBoxFor(model => model.Entity.Paid, new { @checked = @paidChecked, @class = "form-control input-participant" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.RadioButtonFor(model => model.Entity.WithDrink, true, new { @class = "form-control input-participant" })
+                                            <label class="control-label">@GlobalResource.WithDrinkWithoutCurrency</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group label-floating">
+                                            @Html.RadioButtonFor(model => model.Entity.WithDrink, false, new { @class = "form-control input-participant" })
+                                            <label class="control-label">@GlobalResource.WithoutDrinkWithoutCurrency</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group label-floating">
+                                            @Html.LabelFor(model => model.Entity.ObservationToOrganizer, new { @class = "control-label" })
+                                            @Html.TextBoxFor(model => model.Entity.ObservationToOrganizer, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                var buttonStatus = Model.Events.Any() || Model.SubmitType.Equals(SubmitType.AddParticipantToEvent) ? string.Empty : "disabled";
+
+                                <button type="submit" name="SubmitType" value="@Model.SubmitType" class="btn btn-primary pull-right  background-color-green" @buttonStatus>@GlobalResource.Save</button>
+                            }
+
+                            @{ 
+                                var hrefBack = Model.Entity.EventId > 0 ? string.Concat(ConfigurationResource.EventEdit, Model.Entity.EventId) : ConfigurationResource.EventList;
+                            }
+
+                            <a href="@hrefBack"><button class="btn btn-primary pull-right">@GlobalResource.Back</button></a>
+                            <div class="clearfix"></div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

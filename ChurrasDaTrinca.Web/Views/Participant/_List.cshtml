@@ -1,0 +1,101 @@
+﻿@using ChurrasDaTrinca.Language
+
+@model ChurrasDaTrinca.Web.Models.ParticipantViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="card-header" data-background-color="purple">
+                <i class="material-icons icon-title">group</i>
+                <h4 class="title">@GlobalResource.Participants</h4>
+            </div>
+
+            <div class="card-content table-responsive">
+                <table class="table">
+
+                    <thead class="text-primary">
+                    <th>@GlobalResource.Name</th>
+                    <th>@GlobalResource.ContributionWithoutCurrency</th>
+                    <th>@GlobalResource.Drink</th>
+                    <th>@GlobalResource.PaidWithoutAccent</th>
+                    <th>@GlobalResource.Observation</th>
+
+                    @if (Model.CanEdit)
+                    {
+                        <th>@GlobalResource.Space</th>
+                        <th>@GlobalResource.Space</th>
+                        <th>@GlobalResource.Space</th>
+                    }
+
+                    </thead>
+
+                    <tbody>
+                        @foreach (var entity in Model.Entities)
+                        {
+                            <tr>
+                                <td>@entity.Name</td>
+                                <td>@string.Format("{0:c}", entity.Contribution)</td>
+
+                                @if (entity.WithDrink)
+                                {
+                                    <td><i class="material-icons">check</i></td>
+                                }
+                                else
+                                {
+                                    <td><i class="material-icons">close</i> </td>
+                                }
+
+                                @if (entity.Paid)
+                                {
+                                    <td><i class="material-icons">check</i></td>
+                                }
+                                else
+                                {
+                                    <td> <i class="material-icons">close</i></td>
+                                }
+
+                                <td>@entity.ObservationToOrganizer</td>
+
+                                @if (Model.CanEdit)
+                                {
+                                    <td><a href="@string.Concat(ConfigurationResource.ParticipantDetails, entity.Id)"><i class="material-icons">zoom_in</i></a></td>
+                                    <td><a href="@string.Concat(ConfigurationResource.ParticipantEdit, entity.Id)"><i class="material-icons">edit</i></a></td>
+                                    <td><a class="delete-button" onclick="DeleteParticipant(@entity.Id, @entity.EventId)"><i class="material-icons">delete</i></a></td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function DeleteParticipant(id, eventId) {
+
+        var flag = confirm("@Html.Raw(MessageResource.ParticipantDelete)");
+
+        if (flag) {
+
+            $.ajax({
+                url: "@Html.Raw(ConfigurationResource.ParticipantDelete)",
+                type: "POST",
+                data: { id: id, eventId: eventId },
+                dataType: "json"
+            }).success(function (data) {
+                window.location = data.redirectResult;
+            });
+
+        }
+
+        return false;
+    }
+
+</script>    

@@ -1,0 +1,43 @@
+﻿@using ChurrasDaTrinca.Language
+@using ChurrasDaTrinca.Web.Helpers
+
+@{
+    var homeClass = SessionManager.Instance.CurrentMenu == MenuType.Home ? "active" : string.Empty;
+    var scheduleClass = SessionManager.Instance.CurrentMenu == MenuType.Schedule ? "active" : string.Empty;
+    var eventClass = SessionManager.Instance.CurrentMenu == MenuType.Event ? "active" : string.Empty;
+    var participantClass = SessionManager.Instance.CurrentMenu == MenuType.Participant ? "active" : string.Empty;
+}
+
+<div class="sidebar-wrapper">
+    <ul class="nav">
+
+        <li class="@homeClass">
+            <a href="@ConfigurationResource.Home">
+                <i class="material-icons">home</i>
+                <p>@GlobalResource.Home</p>
+            </a>
+        </li>
+
+        <li class="@scheduleClass">
+            <a href="@ConfigurationResource.EventList">
+                <i class="material-icons">event</i>
+                <p>@GlobalResource.Schedule</p>
+            </a>
+        </li>
+
+        <li class="@eventClass">
+            <a href="@ConfigurationResource.EventAdd">
+                <i class="material-icons">add_circle</i>
+                <p>@GlobalResource.AddEvent</p>
+            </a>
+        </li>
+
+        <li class="@participantClass">
+            <a href="@ConfigurationResource.ParticipantAdd">
+                <i class="material-icons">person_add</i>
+                <p>@GlobalResource.AddParticipant</p>
+            </a>
+        </li>
+
+    </ul>
+</div>
